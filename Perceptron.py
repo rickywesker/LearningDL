@@ -12,23 +12,22 @@ class Perceptron(object):
     def predict(self,input_vec):
         return self.activator(
             reduce(lambda a, b: a + b,
-                map(lambda (x,w):x * w,zip(input_vec,self.weights)),
-                    0.0) + self.bias)
+                list(map(lambda x:x[0] * x[1],list(zip(input_vec,self.weights))))) + self.bias)
 
     def train(self, input_vec ,labels, iteration,rate):
         for i in range(iteration):
             self._one_iteration(input_vec,labels,rate)
 
-        def _one_iteration(self,input_vec,labels,rate):
+    def _one_iteration(self,input_vec,labels,rate):
             ##one iteration
             samples = zip(input_vec,labels)
             for (input_vec,labels) in samples:
                 output = self.predict(input_vec)
                 self._update_weights(input_vec,output,labels,rate)
 
-        def _update_weights(self,input_vec,output,labels,rate):
-            delta = label - output
-            self.weights = map(lambda(x,w):w + rate * delta * x,zip(input_vec,self.weights))
+    def _update_weights(self,input_vec,output,labels,rate):
+            delta = labels - output
+            self.weights = list(map(lambda x:x[1] + rate * delta * x[0],list(zip(input_vec,self.weights))))
             self.bias += rate * delta
 
 def f(x):
@@ -41,7 +40,7 @@ def get_training_dataset():
 
 def train_and_perceptron():
     p = Perceptron(2,f)
-    input_vec,lables = get_training_dataset()
+    input_vec,labels = get_training_dataset()
     p.train(input_vec,labels,10,0.1)
     return p
 
