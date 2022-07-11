@@ -64,9 +64,7 @@ def sigmoid(x):
         def __init__(self,layer_index,node_count):
             self.layer_index = layer_index
             self.node_count = node_count
-            self.nodes = []
-            for i in range(self.node_count):
-                self.nodes.append(Node(layer_index,i))
+            self.nodes = [Node(layer_index,i) for i in range(self.node_count)]
             self.nodes.append(ConstNode(layer_index,self.node_count))
 
         def set_output(self,data):#input layer x1,x2,x3...
@@ -125,8 +123,7 @@ def sigmoid(x):
             layer_count = len(layers)
             node_count = 0
             #how many layers?
-            for i in range(layer_count):
-                self.layers.append(Layer(i,layers[i]))   
+            self.layers.extend(Layer(i,layers[i]) for i in range(layer_count))
             for layer in range(layer_count - 1):
                 connections = [Connection(upstream_node,downstream_node)
                                for upstream_node in self.layers[layer].nodes
