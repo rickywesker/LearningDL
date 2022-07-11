@@ -15,7 +15,7 @@ class Perceptron(object):
                 list(map(lambda x:x[0] * x[1],list(zip(input_vec,self.weights))))) + self.bias)
 
     def train(self, input_vec ,labels, iteration,rate):
-        for i in range(iteration):
+        for _ in range(iteration):
             self._one_iteration(input_vec,labels,rate)
 
     def _one_iteration(self,input_vec,labels,rate):
